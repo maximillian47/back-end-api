@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
+
 app.use(express.json());
 
-const {destinations} = require("./db");
+let {destinations} = require("./db");
 const {uid} = require("./services");
 
-app.listen(6000, ()=> {
+app.listen(8000, ()=> {
     console.log('Max app is listening.');
 });
 
@@ -29,7 +30,7 @@ app.post("/destinations", (req, res) => {
     }
 
     destinations.push({
-        id: uid,
+        id: uid(),
         name: name,
         location: location,
         photo: photo ? photo :"",
@@ -46,7 +47,7 @@ app.delete("/destinations/:id", (req, res) => {
 
     const {id}= req.params;    
  
-    const filtered = destinations.filter((dest) => {
+    let filtered = destinations.filter((dest) => {
         if (dest.id !== id) 
             return true;
         
