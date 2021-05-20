@@ -1,12 +1,13 @@
 const express = require("express");
-const app = express();
-
-app.use(express.json());
-
 let {destinations} = require("./db");
 const {uid} = require("./services");
+const app = express();
+app.use(express.json());
+const port = 8000;
 
-app.listen(8000, ()=> {
+console.log(process.env.port);
+
+app.listen(port, ()=> {
     console.log('Max app is listening.');
 });
 
@@ -56,4 +57,30 @@ app.delete("/destinations/:id", (req, res) => {
     destinations = filtered;
     res.send({status:"success"});
 
+});
+
+app.put("/destinations/:id", (req, res) => {
+    const {id} = req.params;
+
+    const {name, location, photo, description} = req.body;
+
+    if (!name || !location || !photo || !description) {
+        return res.status(400).json({status: "no data to update"})
+    }
+
+    for(let dest of destinations) {
+        if (dest.id === id) {
+            if (name) {
+                dest.name = name;
+            }
+            dest.name = name ? name :dest.name;
+
+            if (location) {
+                dest.location = location
+            }
+            break;
+        }
+    }
+
+    res.send({status: success});
 });
