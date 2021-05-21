@@ -1,21 +1,21 @@
+const { response } = require("express");
 const express = require("express");
 let {destinations} = require("./db");
 const {uid} = require("./services");
 const app = express();
-app.use(express.json());
-const port = 8000;
+const port = process.env.port || 8000;
 
 console.log(process.env.port);
 
+app.use(express.json());
+
 app.listen(port, ()=> {
-    console.log('Max app is listening.');
+    console.log(`Max app is listening on port ${port}`);
 });
 
 app.get("/destinations", (req, res) => {
     res.send(destinations);
 });
-
-app.use(express.json());
 
 app.post("/destinations", (req, res) => {
     //req.query.search
@@ -84,3 +84,14 @@ app.put("/destinations/:id", (req, res) => {
 
     res.send({status: success});
 });
+
+function getPic(destinations) {
+    const API = ``;
+
+    let dest = destination;
+    const URL = `${API}${dest}`;
+    let index = Math.floor(Math.random() *10);
+    return fetch(URL)
+    .then ((response) => response.json())
+    .then ((pics) => pics.results[index].urls.large);
+}
