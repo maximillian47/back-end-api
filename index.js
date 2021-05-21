@@ -3,11 +3,11 @@ const express = require("express");
 let {destinations} = require("./db");
 const {uid} = require("./services");
 const app = express();
-const port = process.env.port || 8000;
 
 console.log(process.env.port);
 
 app.use(express.json());
+const port = process.env.port || 8000;
 
 app.listen(port, ()=> {
     console.log(`Max app is listening on port ${port}`);
